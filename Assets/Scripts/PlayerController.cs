@@ -4,14 +4,21 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float MoveSpeed;
     [SerializeField] private float RotateSpeed;
+    [SerializeField] private Transform DamageZoneBegin;
+    [SerializeField] private Transform DamageZoneEnd;
+    [SerializeField] private float DamageZoneRadius;
 
     private CharacterController _controller;
     private Animator _animator;
     private Transform _transform;
     private Joystick _joystick;
     private bool _isRun;
+    private bool _isAttack;
+    private Collider _grass;
 
-    private void Awake()
+    private Vector3 _velocity;
+    
+    private void Start()
     {
         _controller = GetComponent<CharacterController>();
         _transform = GetComponent<Transform>();
@@ -21,15 +28,46 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        PlayAnimation();
-        
         if (_joystick.Direction != Vector2.zero)
         {
             Move();
             Rotate(_joystick);
         }
+        Gravity();
+        PlayAnimation();
     }
 
+    private void FixedUpdate()
+    {
+        _grass = IsHitGrass();
+        if (_grass!=null)
+        {
+            _grass.GetComponent<Grass>().Cut();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<Grass>())
+        {
+            _animator.SetTrigger("Attack");
+            _isAttack = true;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (DamageZoneBegin.position != Vector3.zero & DamageZoneEnd.position != Vector3.zero) return;
+        Gizmos.DrawSphere(DamageZoneBegin.position,DamageZoneRadius);
+        Gizmos.DrawSphere(DamageZoneEnd.position,DamageZoneRadius);
+    }
+
+    private void Gravity()
+    {
+        _velocity.y += -9.81f * Time.deltaTime;
+        _controller.Move(_velocity);
+    }
+    
     private void Move()
     {
         _controller.Move(transform.TransformDirection(Vector3.forward) * (MoveSpeed * Time.deltaTime));
@@ -41,6 +79,27 @@ public class PlayerController : MonoBehaviour
         _transform.rotation = Quaternion.Lerp(_transform.rotation,Quaternion.LookRotation(direction),RotateSpeed *Time.deltaTime);
     }
 
+    private Collider IsHitGrass()
+    {
+        if (_isAttack)
+        {
+            Collider[] hitCollider = Physics.OverlapCapsule(DamageZoneBegin.position, DamageZoneEnd.position, DamageZoneRadius);
+            if (hitCollider.Length > 0)
+            {
+                foreach (var collider in hitCollider)
+                {
+                    if (collider.GetComponent<Grass>())
+                    {
+                        _isAttack = false;
+                        return collider;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+    
     private void PlayAnimation()
     {
         if (!_isRun && _joystick.Direction != Vector2.zero)
