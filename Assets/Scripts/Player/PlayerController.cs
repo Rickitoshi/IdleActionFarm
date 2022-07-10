@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -13,15 +14,17 @@ public class PlayerController : MonoBehaviour
     private Transform _transform;
     private Joystick _joystick;
     private bool _isRun;
-    private bool _isAttack;
     private Collider _grass;
-
     private Vector3 _velocity;
+    private Backpack _backpack;
+    
+    public bool IsAttack { get; set; }
     
     private void Start()
     {
         _controller = GetComponent<CharacterController>();
         _transform = GetComponent<Transform>();
+        _backpack = GetComponent<Backpack>();
         _animator = GetComponentInChildren<Animator>();
         _joystick = FindObjectOfType<Joystick>();
     }
@@ -42,16 +45,16 @@ public class PlayerController : MonoBehaviour
         _grass = IsHitGrass();
         if (_grass!=null)
         {
-            _grass.GetComponent<Grass>().Cut();
+            if (!_backpack.IsFull) _grass.GetComponent<Grass>().Cut();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Grass>())
+        if (other.GetComponent<Grass>() && !_backpack.IsFull)
         {
-            _animator.SetTrigger("Attack");
-            _isAttack = true;
+            if (!IsAttack) _animator.SetTrigger("Attack");
+           IsAttack = true;
         }
     }
 
@@ -81,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
     private Collider IsHitGrass()
     {
-        if (_isAttack)
+        if (IsAttack)
         {
             Collider[] hitCollider = Physics.OverlapCapsule(DamageZoneBegin.position, DamageZoneEnd.position, DamageZoneRadius);
             if (hitCollider.Length > 0)
@@ -90,7 +93,6 @@ public class PlayerController : MonoBehaviour
                 {
                     if (collider.GetComponent<Grass>())
                     {
-                        _isAttack = false;
                         return collider;
                     }
                 }
@@ -114,5 +116,5 @@ public class PlayerController : MonoBehaviour
             _isRun = false;
         }
     }
-    
+
 }

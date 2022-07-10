@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5058639505463437815}
-  - component: {fileID: 1978470226700554510}
   - component: {fileID: 3984700649493020890}
+  - component: {fileID: 1978470226700554510}
   m_Layer: 0
   m_Name: GrassBlock
   m_TagString: Untagged
@@ -33,6 +33,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3984700649493020890
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2566687968213491474}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.45, y: 0.16, z: 0.23}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1978470226700554510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,24 +58,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ab8a0932b8aec4bb8423d0bc343e11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JumpPower: 40
+  Price: 15
+  JumpPower: 1.5
   JumpDuration: 1
   JumpSnapping: 0
-  ScaleValue: 0.5
+  ScaleValue: 0.2
   ScaleDuration: 1
---- !u!65 &3984700649493020890
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2566687968213491474}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.45581436, y: 0.16, z: 0.23207623}
-  m_Center: {x: -0.11475897, y: 0.09, z: 0.0033575594}
 --- !u!1001 &2912581954668627954
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88,11 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4b2493ad33c4e6a4580c944a3ed440ca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.115
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4b2493ad33c4e6a4580c944a3ed440ca, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4b2493ad33c4e6a4580c944a3ed440ca, type: 3}
       propertyPath: m_LocalPosition.z

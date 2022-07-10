@@ -26,7 +26,8 @@ public class Grass : MonoBehaviour
 
     private void Drop()
     {
-        Instantiate(DropDownObject, transform.position, Quaternion.identity);
+        Vector3 position = new Vector3(transform.position.x, 0.12f, transform.position.z);
+        Instantiate(DropDownObject, position, Quaternion.identity);
     }
 
     public void Cut()
