@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2148206622358187085}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.175, y: 0.3, z: 0.38}
+  m_LocalPosition: {x: 0.006, y: 0.3, z: 0.439}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3729432182201608298}
@@ -94,7 +94,7 @@ CharacterController:
   m_Height: 1.7
   m_Radius: 0.3
   m_SlopeLimit: 10
-  m_StepOffset: 0.1
+  m_StepOffset: 0.5
   m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.84, z: 0}
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b9c078163375348b62258c3d6445db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 2.3
+  MoveSpeed: 2.2
   RotateSpeed: 10
   DamageZoneBegin: {fileID: 896538247359585375}
   DamageZoneEnd: {fileID: 988782527439504917}
@@ -146,6 +146,7 @@ MonoBehaviour:
   PickUpRadius: 1
   Storage: {fileID: 8431812089458003660}
   "GrassBlo\u0441ksStartPoint": {x: -0.045, y: 0.035, z: 0.07}
+  DropItemDelay: 0.03
   bar: {fileID: 0}
   MaxCountBlocks: 40
   MaxCountX: 2
@@ -420,6 +421,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &205422505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4539895737668279856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee68a1e1093ad1145a5495db7a4c20ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5166522276388060076
 PrefabInstance:
   m_ObjectHideFlags: 0

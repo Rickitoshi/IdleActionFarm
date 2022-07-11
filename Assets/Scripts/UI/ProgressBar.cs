@@ -8,27 +8,31 @@ using TMPro;
 public class ProgressBar : MonoBehaviour
 {
     [SerializeField] private Image Fill;
-    [SerializeField] private float Durationfill;
-    [SerializeField] private float DurationFade;
-
-    private TextMeshProUGUI _text;
+    [SerializeField] private float Durationfill=1;
+    [SerializeField] private float DurationFade=1;
+    [SerializeField] private float DurationScale=1;
+    
     private float _currentValue;
     private float _stepValue;
+    private bool _isAnimationReady;
 
     public int MaxValue { get; set; }
+
+    public event Action OnFull;
     
     private void Start()
     {
-        _text = GetComponentInChildren<TextMeshProUGUI>();
-        _text.alpha = 0;
+        //_text.alpha = 0;
+        Fill.fillAmount = 0;
         _stepValue = 1f / MaxValue;
+        _isAnimationReady = true;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (Fill.fillAmount >= 0.99f)
+        if (_isAnimationReady && Fill.fillAmount >= 0.99f)
         {
-            _text.DOFade(1, DurationFade);
+            OnFull?.Invoke();
         }
     }
     
@@ -40,10 +44,15 @@ public class ProgressBar : MonoBehaviour
     
     public void ResettingValue()
     {
-        _text.DOFade(0, DurationFade);
         _currentValue = 0;
-        Fill.DOFillAmount(_currentValue, Durationfill);
+        Fill.DOFillAmount(_currentValue, Durationfill).OnComplete(()=>{_isAnimationReady = true;});
     }
-    
+
+    private void ShowText()
+    {
+        //_text.DOFade(1, DurationFade).SetLoops(2,LoopType.Yoyo);
+        //_text.rectTransform.DOScale(new Vector3(1.1f, 1.1f, 1.1f), DurationScale).SetLoops(2,LoopType.Yoyo);
+        _isAnimationReady = false;
+    }
     
 }

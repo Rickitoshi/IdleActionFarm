@@ -1,13 +1,14 @@
+using System;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
+using System.Collections;
 
 public class Backpack : MonoBehaviour
 {
     [SerializeField] private float PickUpRadius;
     [SerializeField] private Transform Storage;
     [SerializeField] private Vector3 GrassBloсksStartPoint;
-    [SerializeField] private ProgressBar bar;
+    [SerializeField] private float DropItemDelay;
 
     [Header("Count")]
     [SerializeField] private int MaxCountBlocks;
@@ -18,41 +19,39 @@ public class Backpack : MonoBehaviour
     [SerializeField] private float OffsetX;
     [SerializeField] private float OffsetZ;
 
-    private List<Transform> _grassBlocks;
+    private Stack<GrassBlock> _grassBlocks;
     private Vector3 _grassBlockPosition;
-    private int _currentCountX=1;
-    private int _currentCountZ=1;
+    private int _currentCountX;
+    private int _currentCountZ;
 
     public bool IsFull { get; private set; }
-    
+    public int CurrentCountBlocks => _grassBlocks.Count;
+
+    public event Action OnDropItem;
+    public event Action OnHarvestItem;
+
     private void Awake()
     {
-        bar.MaxValue = MaxCountBlocks;
+       // bar.MaxValue = MaxCountBlocks;
     }
 
     private void Start()
     {
-        _grassBlocks = new List<Transform>();
-        _grassBlockPosition = GrassBloсksStartPoint;
+        _grassBlocks = new Stack<GrassBlock>();
+        SetDefaultBlockPosition();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         Harvest();
         IsFull = _grassBlocks.Count == MaxCountBlocks;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void SetDefaultBlockPosition()
     {
-        if (other.GetComponent<Barn>() && _grassBlocks.Count!=0)
-        {
-            Vector3 position = other.GetComponent<Barn>().transform.position;
-            foreach (var block in _grassBlocks)
-            {
-                block.parent = null;
-                block.DOMove(position, 2);
-            }
-        }
+        _grassBlockPosition = GrassBloсksStartPoint;
+        _currentCountX = 1;
+        _currentCountZ = 1;
     }
 
     private void OnDrawGizmos()
@@ -60,6 +59,23 @@ public class Backpack : MonoBehaviour
         Gizmos.DrawWireSphere(Storage.position,PickUpRadius);
     }
 
+    public void DropItems(Vector3 position)
+    {
+        StartCoroutine(DropCoroutine(position));
+    }
+    
+    private IEnumerator DropCoroutine(Vector3 position)
+    {
+        OnDropItem?.Invoke();
+        foreach (var block in _grassBlocks)
+        {
+            block.Drop(position);
+            yield return new WaitForSeconds(DropItemDelay);
+        }
+        _grassBlocks.Clear();
+        SetDefaultBlockPosition();
+    }
+    
     private void Harvest()
     {
         Collider[] hitCollider = Physics.OverlapSphere(Storage.position,PickUpRadius);
@@ -76,8 +92,8 @@ public class Backpack : MonoBehaviour
                     {
                         grassBlock.PickUp(_grassBlockPosition,Storage);
                         MovePosition();
-                        bar.IncreaseValue();
-                        _grassBlocks.Add(collider.transform);
+                        OnHarvestItem?.Invoke();
+                        _grassBlocks.Push(collider.GetComponent<GrassBlock>());
                     }
                 }
             }

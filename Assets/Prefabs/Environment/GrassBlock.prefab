@@ -64,6 +64,7 @@ MonoBehaviour:
   JumpSnapping: 0
   ScaleValue: 0.2
   ScaleDuration: 1
+  Coin: {fileID: 7627369128286208233, guid: b990ce5e81f467e44a3a41c9cf3a5b13, type: 3}
 --- !u!1001 &2912581954668627954
 PrefabInstance:
   m_ObjectHideFlags: 0

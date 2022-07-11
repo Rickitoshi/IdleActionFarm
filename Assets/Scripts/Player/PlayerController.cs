@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         _joystick = FindObjectOfType<Joystick>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (_joystick.Direction != Vector2.zero)
         {
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
         PlayAnimation();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         _grass = IsHitGrass();
         if (_grass!=null)
