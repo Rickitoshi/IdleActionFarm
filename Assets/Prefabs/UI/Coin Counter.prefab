@@ -51,8 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1735865a8062024798876f0719ca6d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TargetPositionForCoins: {fileID: 7128773519179583244}
   SpeedUp: 2
   ScaleDuration: 0.1
+  MoveDuration: 0.6
   UpScale: {x: 1.1, y: 1.1}
 --- !u!1 &7128773518096361392
 GameObject:

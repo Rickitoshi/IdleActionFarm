@@ -26,15 +26,11 @@ public class Backpack : MonoBehaviour
 
     public bool IsFull { get; private set; }
     public int CurrentCountBlocks => _grassBlocks.Count;
+    public int MaxBlocks => MaxCountBlocks;
 
-    public event Action OnDropItem;
+    public event Action OnDropItems;
     public event Action OnHarvestItem;
-
-    private void Awake()
-    {
-       // bar.MaxValue = MaxCountBlocks;
-    }
-
+    
     private void Start()
     {
         _grassBlocks = new Stack<GrassBlock>();
@@ -66,7 +62,7 @@ public class Backpack : MonoBehaviour
     
     private IEnumerator DropCoroutine(Vector3 position)
     {
-        OnDropItem?.Invoke();
+        OnDropItems?.Invoke();
         foreach (var block in _grassBlocks)
         {
             block.Drop(position);

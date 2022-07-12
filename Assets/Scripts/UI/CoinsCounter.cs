@@ -3,11 +3,12 @@ using TMPro;
 using UnityEngine;
 using DG.Tweening;
 
-
 public class CoinsCounter : MonoBehaviour
 {
+   [SerializeField] private Transform TargetPositionForCoins;
    [SerializeField] private float SpeedUp = 0.1f;
    [SerializeField] private float ScaleDuration;
+   [SerializeField] private float MoveDuration;
    [SerializeField] private Vector2 UpScale;
    
    private TextMeshProUGUI _textMesh;
@@ -36,11 +37,21 @@ public class CoinsCounter : MonoBehaviour
       
    }
 
-   public void AddCoins(int value)
+   private void AddCoins(int value)
    {
       DOTween.Rewind(_rectTransform, false);
       _rectTransform.DOScale(new Vector3(UpScale.x, UpScale.y, 1), ScaleDuration).SetLoops(2,LoopType.Yoyo);
       _currentValue += value;
+   }
+
+   public void MoveCoin(GameObject coin,int price)
+   {
+      coin.transform.DOScale(Vector3.one, MoveDuration);
+      coin.transform.DOMove(TargetPositionForCoins.position, MoveDuration).OnComplete(() =>
+      {
+         AddCoins(price);
+         Destroy(coin);
+      });
    }
    
 }

@@ -1,11 +1,13 @@
+using System;
 using UnityEngine;
-
 
 public class Barn : MonoBehaviour
 {
     [SerializeField] private float SellRadius;
     
     private Vector3 _barPosition;
+
+    public event Action<int> OnCellBlock;
 
     private void Start()
     {
@@ -23,7 +25,10 @@ public class Barn : MonoBehaviour
                 if (collider.GetComponent<GrassBlock>())
                 {
                     GrassBlock grassBlock = collider.GetComponent<GrassBlock>();
-                    if (grassBlock.IsMoveCompleted) grassBlock.Cell();
+                    if (grassBlock.IsMoveCompleted)
+                    {
+                        OnCellBlock?.Invoke(grassBlock.Cell());
+                    }
                 }
             }
         }

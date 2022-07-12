@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -19,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private Backpack _backpack;
     
     public bool IsAttack { get; set; }
-    
+
     private void Start()
     {
         _controller = GetComponent<CharacterController>();

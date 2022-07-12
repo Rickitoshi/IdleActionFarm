@@ -202,10 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Fill: {fileID: 9169107114173843624}
-  _text: {fileID: 0}
   Durationfill: 0.5
-  DurationFade: 0.6
-  DurationScale: 0.6
 --- !u!1 &9169107115518959302
 GameObject:
   m_ObjectHideFlags: 0

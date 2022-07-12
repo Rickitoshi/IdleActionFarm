@@ -146,8 +146,7 @@ MonoBehaviour:
   PickUpRadius: 1
   Storage: {fileID: 8431812089458003660}
   "GrassBlo\u0441ksStartPoint": {x: -0.045, y: 0.035, z: 0.07}
-  DropItemDelay: 0.03
-  bar: {fileID: 0}
+  DropItemDelay: 0.02
   MaxCountBlocks: 40
   MaxCountX: 2
   MaxCountZ: 3

@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -15,18 +14,19 @@ public class GrassBlock : MonoBehaviour
 
     public bool IsPickUp { get; private set; }
     public bool IsMoveCompleted { get; private set; }
-    
-    //public event Action<int> OnCell; 
 
     private void Start()
     {
         _transform = GetComponent<Transform>();
     }
 
-    public void Cell()
+    /// <summary>
+    /// Returns the block price
+    /// </summary>
+    public int Cell()
     {
         Destroy(gameObject);
-        //OnCell?.Invoke(Price);
+        return Price;
     }
     
     public void PickUp(Vector3 position, Transform parent)
